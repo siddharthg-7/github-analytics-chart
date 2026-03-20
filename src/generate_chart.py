@@ -31,10 +31,15 @@ monthly_commits = defaultdict(int)
 for event in events:
     if event["type"] == "PushEvent":
         payload = event.get("payload", {})
-        if "commits" in payload:
+        
+        # Get commit count: use distinct_size, size, or length of commits list
+        commit_count = payload.get("distinct_size", payload.get("size", 0))
+        if commit_count == 0 and "commits" in payload:
+            commit_count = len(payload["commits"])
+            
+        if commit_count > 0:
             dt = datetime.strptime(event["created_at"], "%Y-%m-%dT%H:%M:%SZ")
             month = dt.strftime("%b %Y")
-            commit_count = len(payload["commits"])
             monthly_commits[month] += commit_count
 
 if not monthly_commits:
