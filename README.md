@@ -2,19 +2,19 @@
 
 This repository automatically generates and updates a monthly commits chart for [siddharthg-7](https://github.com/siddharthg-7) using GitHub Actions.
 
-## 🌙 Preview
+## Preview
 
 <p align="center">
-  <img width="95%" src="https://raw.githubusercontent.com/siddharthg-7/github-analytics-chart/main/charts/monthly_commits.png" />
+  <img width="95%" src="https://raw.githubusercontent.com/siddharthg-7/Github-Analytics-Chart/main/charts/monthly_commits.png" />
 </p>
 
-## 🚀 Features
+## Features
 
 - **Automated**: Updates daily using GitHub Actions.
 - **Visual**: A clean, Tokyonight-inspired dark theme chart.
 - **Python Powered**: Built with Matplotlib and the GitHub Events API.
 
-## ⚙️ Setup
+## Setup
 
 If you want to use this for your own profile:
 
