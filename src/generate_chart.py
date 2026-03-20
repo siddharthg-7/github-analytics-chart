@@ -23,10 +23,18 @@ monthly_commits = defaultdict(int)
 # Process events
 for event in events:
     if event["type"] == "PushEvent":
-        dt = datetime.strptime(event["created_at"], "%Y-%m-%dT%H:%M:%SZ")
-        month = dt.strftime("%b %Y")
-        commit_count = len(event["payload"]["commits"])
-        monthly_commits[month] += commit_count
+        payload = event.get("payload", {})
+        if "commits" in payload:
+            dt = datetime.strptime(event["created_at"], "%Y-%m-%dT%H:%M:%SZ")
+            month = dt.strftime("%b %Y")
+            commit_count = len(payload["commits"])
+            monthly_commits[month] += commit_count
+
+if not monthly_commits:
+    print("No commits found in recent events.")
+    # Create a dummy entry to avoid empty plot errors if needed, 
+    # or just exit gracefully.
+    exit(0)
 
 # Sort months chronologically
 months = sorted(monthly_commits.keys(), key=lambda x: datetime.strptime(x, "%b %Y"))
