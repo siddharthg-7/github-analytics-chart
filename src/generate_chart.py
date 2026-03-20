@@ -9,14 +9,21 @@ USERNAME = "siddharthg-7"
 # Create charts folder if not exists
 os.makedirs("charts", exist_ok=True)
 
-# GitHub API (recent events)
-url = f"https://api.github.com/users/{USERNAME}/events"
-response = requests.get(url)
+# GitHub API (fetch multiple pages to get more history)
+events = []
+for page in range(1, 4):  # Fetch up to 3 pages (300 events)
+    url = f"https://api.github.com/users/{USERNAME}/events?per_page=100&page={page}"
+    response = requests.get(url)
+    if response.status_code != 200:
+        break
+    page_events = response.json()
+    if not page_events:
+        break
+    events.extend(page_events)
 
-if response.status_code != 200:
-    raise Exception("Failed to fetch data from GitHub API")
-
-events = response.json()
+if not events:
+    print("Failed to fetch any events from GitHub API")
+    exit(0)
 
 monthly_commits = defaultdict(int)
 
